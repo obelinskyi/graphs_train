@@ -3,7 +3,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Node<T> {
-
     private T data;
     private List<Node> neighbours;
 
@@ -32,4 +31,9 @@ public class Node<T> {
         this.neighbours.addAll(Arrays.asList(neighbours));
     }
 
+    @Override
+    public String toString() {
+        return "Node{" +
+                "data=" + data + '}';
+    }
 }
