@@ -27,26 +27,45 @@ public class Graph2 {
         List<Node> nodes = Arrays.asList(new Node[]{A, B, C, D, E, F, G, H, I, J});
         List<List<Node>> groups = new ArrayList<>();
         for (Node node : nodes) {
-            boolean found = groups.stream().flatMap(Collection::stream).anyMatch(e -> e == node);
-            if (!found) {
-                groups.add(getGroup(node, nodes));
+            boolean is_grouped = groups.stream().flatMap(Collection::stream)
+                    .anyMatch(e -> e.equals(node));
+            if (!is_grouped) {
+//                groups.add(getGroups(node));
+                groups.add(depthFirtsSearch(node));
             }
         }
         groups.forEach(System.out::println);
 
     }
 
-    static List<Node> getGroup(Node startingNode, List<Node> nodes) {
+    static List<Node> getGroups(Node startingNode) {
         Queue<Node> queue = new LinkedList<>();
         List<Node> visited = new ArrayList<>();
         queue.add(startingNode);
         visited.add(startingNode);
         while (!queue.isEmpty()) {
             Node current = queue.poll();
-            for (Node node : current.getNeighbours()) {
-                if (!visited.contains(node)) {
-                    visited.add(node);
-                    queue.add(node);
+            for (Node neighbor : current.getNeighbours()) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
+        return visited;
+    }
+
+    static List<Node> depthFirtsSearch(Node startingNode) {
+        Stack<Node> stack = new Stack<>();
+        List<Node> visited = new ArrayList<>();
+        stack.push(startingNode);
+        visited.add(startingNode);
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+            for (Node neighbor : current.getNeighbours()) {
+                if (!visited.contains(neighbor)) {
+                    stack.push(neighbor);
+                    visited.add(neighbor);
                 }
             }
         }

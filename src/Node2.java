@@ -1,9 +1,17 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Node2<T> {
+
     private T data;
-    private Node2[] neighbors;
+    private List<Node> neighbours;
 
     public Node2(T data) {
         this.data = data;
+        this.neighbours = new ArrayList<>();
     }
 
     public T getData() {
@@ -14,12 +22,12 @@ public class Node2<T> {
         this.data = data;
     }
 
-    public Node2[] getNeighbours() {
-        return neighbors;
+    public Node[] getNeighbours() {
+        return neighbours.toArray(new Node[0]);
     }
 
-    public void setNeighbours(Node2[] neighbors) {
-        this.neighbors = neighbors;
+    public void setNeighbours(Node[] neighbours) {
+        this.neighbours = Arrays.stream(neighbours).collect(Collectors.toList());
     }
 
     @Override
